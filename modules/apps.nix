@@ -24,6 +24,7 @@
     delta
     ripgrep
     nodejs
+    bun
     go
     golangci-lint
     gotools
@@ -42,6 +43,7 @@
     kubelogin-oidc
     stow
     starship
+    atuin
     eza
     zoxide
     bat
@@ -111,6 +113,8 @@
       "firefox"
       "google-chrome"
       "alacritty"
+      "ghostty"
+      "karabiner-elements"
       "aws-vpn-client"
       "vlc"
       "obsidian"
