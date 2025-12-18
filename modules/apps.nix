@@ -21,6 +21,7 @@
     neovim
     git
     git-crypt
+    sops
     delta
     ripgrep
     nodejs
@@ -34,6 +35,8 @@
     uv
     docker
     terraform
+    tflint
+    ansible
     awscli2
     kubectl
     kubectx
@@ -41,6 +44,10 @@
     kubebuilder
     kind
     kubelogin-oidc
+    fluxcd
+    argocd
+    kustomize
+    kubernetes-helm
     stow
     starship
     atuin
@@ -49,7 +56,7 @@
     bat
     direnv
     tokei
-    dog
+    dogdns
     dust
     fd
     skim
