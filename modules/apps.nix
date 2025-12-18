@@ -125,10 +125,10 @@
       "aws-vpn-client"
       "vlc"
       "obsidian"
+      "google-drive"
       "nikitabobko/tap/aerospace"
       "virtualbox"
       "vagrant"
-      "chef-workstation"
 
       # IM & audio & remote desktop & meeting
       "telegram"
