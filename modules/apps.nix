@@ -112,6 +112,7 @@
       "httpie" # http client
       "tfenv" # Terraform version manager
       "zplug" # Zsh plugin manager
+      "mysql-client"
     ];
 
     # `brew install --cask`
@@ -123,6 +124,7 @@
       "ghostty"
       "karabiner-elements"
       "aws-vpn-client"
+      "session-manager-plugin"
       "vlc"
       "obsidian"
       "google-drive"
