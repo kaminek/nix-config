@@ -34,9 +34,11 @@
     cargo
     docker
     terraform
+    terragrunt
     tflint
     ansible
     awscli2
+    google-cloud-sdk
     kubectl
     kubectx
     k9s

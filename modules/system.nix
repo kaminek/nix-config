@@ -147,6 +147,13 @@
         "com.apple.AdLib" = {
           allowApplePersonalizedAdvertising = false;
         };
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            # Disable Show Desktop (fn+H / F11)
+            "36" = { enabled = false; };
+            "37" = { enabled = false; };
+          };
+        };
         # Prevent Photos from opening automatically when devices are plugged in
         "com.apple.ImageCapture".disableHotPlug = true;
       };
