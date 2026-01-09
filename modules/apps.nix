@@ -112,6 +112,7 @@
       "aria2" # download tool
       "xh" # http client (rust-based httpie alternative)
       "mise" # polyglot version manager
+      "act" # GitHub Actions local runner
       "tfenv" # Terraform version manager
       "zplug" # Zsh plugin manager
       "mysql-client"
