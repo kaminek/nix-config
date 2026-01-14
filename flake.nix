@@ -39,10 +39,10 @@
     ...
   }: let
     # TODO replace with your own username, email, system, and hostname
-    username = "amine.kherbouche";
+    username = "kaminek";
     useremail = "kaminek92@gmail.com";
     system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-    hostname = "PAR-MBP-AKherbouche";
+    hostname = "dota";
 
     specialArgs =
       inputs
