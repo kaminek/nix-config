@@ -184,6 +184,7 @@
 
   # Set SSL certificate environment variables
   environment.variables = {
+    ZDOTDIR = "$HOME/.config/zsh";
     SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     REQUESTS_CA_BUNDLE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";

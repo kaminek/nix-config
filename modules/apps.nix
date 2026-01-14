@@ -126,7 +126,6 @@
       "alacritty"
       "ghostty"
       "karabiner-elements"
-      "aws-vpn-client"
       "session-manager-plugin"
       "vlc"
       "obsidian"
@@ -138,6 +137,7 @@
       # IM & audio & remote desktop & meeting
       "telegram"
       "discord"
+      "slack"
     ];
   };
 }
