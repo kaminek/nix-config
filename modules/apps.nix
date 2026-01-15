@@ -115,6 +115,7 @@
       "tfenv" # Terraform version manager
       "zplug" # Zsh plugin manager
       "mysql-client"
+      "prek"
     ];
 
     # `brew install --cask`
