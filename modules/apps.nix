@@ -38,7 +38,6 @@
     tflint
     ansible
     awscli2
-    google-cloud-sdk
     kubectl
     kubectx
     k9s
@@ -133,6 +132,7 @@
       "nikitabobko/tap/aerospace"
       "virtualbox"
       "vagrant"
+      "google-cloud-sdk"
 
       # IM & audio & remote desktop & meeting
       "telegram"

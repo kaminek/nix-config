@@ -182,6 +182,11 @@
     };
   };
 
+  # Add google-cloud-sdk bin to PATH for gke-gcloud-auth-plugin
+  environment.systemPath = [
+    "/opt/homebrew/share/google-cloud-sdk/bin"
+  ];
+
   # Set SSL certificate environment variables
   environment.variables = {
     ZDOTDIR = "$HOME/.config/zsh";
