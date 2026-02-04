@@ -63,8 +63,8 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "Claw (AI Agent)";
-    userEmail = "claw@openclaw.ai";
+    userName = "Amine Kherbouche";
+    userEmail = "kaminek92@gmail.com";
   };
 
   # Starship prompt
