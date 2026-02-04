@@ -48,6 +48,9 @@
     # Build tools
     gcc
     gnumake
+    
+    # AI coding agents
+    opencode
   ];
 
   # Shell configuration
