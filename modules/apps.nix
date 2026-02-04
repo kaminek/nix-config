@@ -19,6 +19,8 @@
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   environment.systemPackages = with pkgs; [
     neovim
+    neovide
+    coreutils-prefixed
     git
     git-crypt
     sops
@@ -33,6 +35,8 @@
     rustc
     cargo
     docker
+    dive
+    skopeo
     terraform
     terragrunt
     tflint
@@ -68,12 +72,14 @@
     pre-commit
     btop
     go-task
+    just
     colima
     fzf
     pulumi-bin
     tailscale
     yt-dlp
     pam-reattach
+    rbw
     gh
   ];
   environment.variables.EDITOR = "nvim";
@@ -116,6 +122,7 @@
       "zplug" # Zsh plugin manager
       "mysql-client"
       "prek"
+      "libmagic"
     ];
 
     # `brew install --cask`
@@ -134,6 +141,9 @@
       "virtualbox"
       "vagrant"
       "google-cloud-sdk"
+      "ngrok"
+      "codex"
+      "tailscale-app"
 
       # IM & audio & remote desktop & meeting
       "telegram"
