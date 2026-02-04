@@ -1,48 +1,70 @@
-# nix-darwin config
+# Nix Configuration
 
-Declarative macOS system configuration using [nix-darwin](https://github.com/LnL7/nix-darwin) and flakes.
-
-## What's managed
-
-- **System packages** via Nix (neovim, git, docker, k8s tools, rust, go, etc.)
-- **GUI apps** via Homebrew (Firefox, Chrome, Alacritty, Obsidian, etc.)
-- **macOS settings** (dock, finder, trackpad, keyboard, dark mode)
-- **Fonts** (Nerd Fonts, Font Awesome)
-- **Services** (Tailscale)
+Multi-machine Nix configuration for macOS (Darwin) and Linux (Home Manager).
 
 ## Prerequisites
 
-1. Install [Nix](https://nixos.org/download.html)
-2. Install [Homebrew](https://brew.sh)
-
-## Usage
+Install Nix using the [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer):
 
 ```bash
-# Apply configuration
-darwin-rebuild switch --flake .
-
-# Build without applying
-darwin-rebuild build --flake .
-
-# Format nix files
-nix fmt
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+
+## Machines
+
+| Host | System | Type | Description |
+|------|--------|------|-------------|
+| `dota` | aarch64-darwin | nix-darwin | MacBook (macOS) |
+| `claw` | x86_64-linux | home-manager | OpenClaw AI Agent Server (Ubuntu) |
 
 ## Structure
 
 ```
-.
-├── flake.nix           # Entry point, user vars
+├── flake.nix              # Main flake configuration
+├── hosts/
+│   ├── dota/              # MacBook config (darwin)
+│   │   └── default.nix
+│   └── claw/              # Linux server config (home-manager)
+│       └── home.nix
 └── modules/
-    ├── apps.nix        # Packages & Homebrew
-    ├── system.nix      # macOS preferences
-    ├── nix-core.nix    # Nix settings
-    └── host-users.nix  # Host & user config
+    ├── shared/            # Shared modules
+    ├── darwin/            # macOS-specific (homebrew, etc)
+    └── nixos/             # Linux-specific
 ```
 
-## Customization
+## Usage
 
-1. Edit `flake.nix` for username/hostname
-2. Edit `modules/apps.nix` for packages
-3. Edit `modules/system.nix` for macOS settings
-4. Run `darwin-rebuild switch --flake .`
+### macOS (dota)
+
+```bash
+# First time
+nix run nix-darwin -- switch --flake .#dota
+
+# Updates
+darwin-rebuild switch --flake .#dota
+```
+
+### Ubuntu/Linux (claw)
+
+```bash
+# First time (installs home-manager)
+nix run home-manager -- switch --flake .#claw
+
+# Updates
+home-manager switch --flake .#claw
+```
+
+## Adding Packages
+
+- **macOS:** Edit `hosts/dota/default.nix` or `modules/darwin/apps.nix`
+- **Linux:** Edit `hosts/claw/home.nix`
+
+## Adding a New Machine
+
+### For macOS
+1. Create `hosts/<hostname>/default.nix`
+2. Add to `darwinConfigurations` in `flake.nix`
+
+### For Linux (non-NixOS)
+1. Create `hosts/<hostname>/home.nix`
+2. Add to `homeConfigurations` in `flake.nix`
