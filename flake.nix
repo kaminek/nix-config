@@ -1,66 +1,80 @@
 {
-  description = "Nix for macOS configuration";
+  description = "Multi-machine Nix configuration (macOS + Linux)";
 
-  ##################################################################################################################
-  #
-  # Want to know Nix in details? Looking for a beginner-friendly tutorial?
-  # Check out https://github.com/ryan4yin/nixos-and-flakes-book !
-  #
-  ##################################################################################################################
-
-  # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
     substituters = [
       "https://cache.nixos.org"
     ];
   };
 
-  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
-  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
   inputs = {
-    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    # NixOS packages (for Linux)
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    
+    # Darwin packages (for macOS)
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
 
+    # Nix Darwin (macOS system management)
     darwin = {
       url = "github:lnl7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
   };
 
-  # The `outputs` function will return all the build results of the flake.
-  # A flake can have many use cases and different types of outputs,
-  # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
-  # However, `self` is an exception, this special parameter points to the `outputs` itself (self-reference)
-  # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-darwin,
     darwin,
     ...
   }: let
-    # TODO replace with your own username, email, system, and hostname
+    # Shared user config
     username = "kaminek";
     useremail = "kaminek92@gmail.com";
-    system = "aarch64-darwin"; # aarch64-darwin or x86_64-darwin
-    hostname = "dota";
-
-    specialArgs =
-      inputs
-      // {
-        inherit username useremail hostname;
-      };
   in {
-    darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
-      inherit system specialArgs;
-      modules = [
-        ./modules/nix-core.nix
-        ./modules/system.nix
-        ./modules/apps.nix
-        ./modules/host-users.nix
-      ];
+    ##########################################################################
+    # Darwin Configurations (macOS)
+    ##########################################################################
+    
+    darwinConfigurations = {
+      # MacBook - dota
+      "dota" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = inputs // {
+          inherit username useremail;
+          hostname = "dota";
+        };
+        modules = [
+          ./hosts/dota
+        ];
+      };
     };
 
-    # nix code formatter
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+    ##########################################################################
+    # NixOS Configurations (Linux)
+    ##########################################################################
+    
+    nixosConfigurations = {
+      # OpenClaw Server - claw
+      "claw" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs // {
+          inherit username useremail;
+          hostname = "claw";
+        };
+        modules = [
+          ./hosts/claw
+        ];
+      };
+    };
+
+    ##########################################################################
+    # Formatters
+    ##########################################################################
+    
+    formatter = {
+      "aarch64-darwin" = nixpkgs-darwin.legacyPackages."aarch64-darwin".alejandra;
+      "x86_64-linux" = nixpkgs.legacyPackages."x86_64-linux".alejandra;
+    };
   };
 }
