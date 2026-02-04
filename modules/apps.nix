@@ -140,7 +140,7 @@
       "nikitabobko/tap/aerospace"
       "virtualbox"
       "vagrant"
-      "google-cloud-sdk"
+      "gcloud-cli"
       "ngrok"
       "codex"
       "tailscale-app"
