@@ -73,5 +73,11 @@
   # Environment variables
   home.sessionVariables = {
     EDITOR = "nvim";
+    BUN_INSTALL = "$HOME/.bun";
   };
+  
+  # Add bun to PATH
+  home.sessionPath = [
+    "$HOME/.bun/bin"
+  ];
 }
