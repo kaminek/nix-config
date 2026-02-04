@@ -1,31 +1,35 @@
 # Nix Configuration
 
-Multi-machine Nix configuration for macOS (Darwin) and Linux (NixOS).
+Multi-machine Nix configuration for macOS (Darwin) and Linux (Home Manager).
+
+## Prerequisites
+
+Install Nix using the [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer):
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
 
 ## Machines
 
-| Host | System | Description |
-|------|--------|-------------|
-| `dota` | aarch64-darwin | MacBook (macOS) |
-| `claw` | x86_64-linux | OpenClaw AI Agent Server (Ubuntu/NixOS) |
+| Host | System | Type | Description |
+|------|--------|------|-------------|
+| `dota` | aarch64-darwin | nix-darwin | MacBook (macOS) |
+| `claw` | x86_64-linux | home-manager | OpenClaw AI Agent Server (Ubuntu) |
 
 ## Structure
 
 ```
 ├── flake.nix              # Main flake configuration
 ├── hosts/
-│   ├── dota/              # MacBook config
-│   └── claw/              # Linux server config
+│   ├── dota/              # MacBook config (darwin)
+│   │   └── default.nix
+│   └── claw/              # Linux server config (home-manager)
+│       └── home.nix
 └── modules/
-    ├── shared/            # Packages for ALL systems
-    │   └── packages.nix
+    ├── shared/            # Shared modules
     ├── darwin/            # macOS-specific (homebrew, etc)
-    │   └── apps.nix
-    ├── nixos/             # Linux-specific
-    │   └── packages.nix
-    ├── nix-core.nix       # Core nix settings
-    ├── system.nix         # System settings
-    └── host-users.nix     # User configuration
+    └── nixos/             # Linux-specific
 ```
 
 ## Usage
@@ -40,23 +44,27 @@ nix run nix-darwin -- switch --flake .#dota
 darwin-rebuild switch --flake .#dota
 ```
 
-### Linux (claw)
+### Ubuntu/Linux (claw)
 
 ```bash
-# NixOS
-sudo nixos-rebuild switch --flake .#claw
+# First time (installs home-manager)
+nix run home-manager -- switch --flake .#claw
 
-# Or with standalone nix on Ubuntu
-nix build .#nixosConfigurations.claw.config.system.build.toplevel
+# Updates
+home-manager switch --flake .#claw
 ```
 
 ## Adding Packages
 
-- **All machines:** Edit `modules/shared/packages.nix`
-- **macOS only:** Edit `modules/darwin/apps.nix`
-- **Linux only:** Edit `modules/nixos/packages.nix`
+- **macOS:** Edit `hosts/dota/default.nix` or `modules/darwin/apps.nix`
+- **Linux:** Edit `hosts/claw/home.nix`
 
 ## Adding a New Machine
 
+### For macOS
 1. Create `hosts/<hostname>/default.nix`
-2. Add configuration to `flake.nix` under `darwinConfigurations` or `nixosConfigurations`
+2. Add to `darwinConfigurations` in `flake.nix`
+
+### For Linux (non-NixOS)
+1. Create `hosts/<hostname>/home.nix`
+2. Add to `homeConfigurations` in `flake.nix`

@@ -19,6 +19,12 @@
       url = "github:lnl7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
+    # Home Manager (for non-NixOS Linux like Ubuntu)
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -26,6 +32,7 @@
     nixpkgs,
     nixpkgs-darwin,
     darwin,
+    home-manager,
     ...
   }: let
     # Shared user config
@@ -51,19 +58,19 @@
     };
 
     ##########################################################################
-    # NixOS Configurations (Linux)
+    # Home Manager Configurations (for non-NixOS Linux like Ubuntu)
     ##########################################################################
     
-    nixosConfigurations = {
-      # OpenClaw Server - claw
-      "claw" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs // {
+    homeConfigurations = {
+      # OpenClaw Server - claw (Ubuntu with home-manager)
+      "claw" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {
           inherit username useremail;
           hostname = "claw";
         };
         modules = [
-          ./hosts/claw
+          ./hosts/claw/home.nix
         ];
       };
     };
