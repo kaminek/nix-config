@@ -1,47 +1,32 @@
 { pkgs, ... }:
 {
-  # Packages available on ALL systems (darwin + nixos)
+  # Core packages for ALL systems
   environment.systemPackages = with pkgs; [
-    # Editors & Dev
+    # Editors
     neovim
+    
+    # Git
     git
     git-crypt
     delta
-    
-    # Languages & Runtimes
-    nodejs
-    bun
-    go
-    rustc
-    cargo
-    
-    # CLI Tools
-    ripgrep
-    starship
-    atuin
-    eza
-    zoxide
-    bat
-    direnv
-    fd
-    fzf
-    lazygit
-    tmux
-    wget
-    btop
-    yt-dlp
     gh
     
-    # DevOps
-    docker
-    terraform
-    kubectl
-    kubectx
-    k9s
-    kubernetes-helm
+    # CLI essentials
+    ripgrep
+    fd
+    fzf
+    bat
+    eza
+    zoxide
+    tmux
+    wget
+    curl
+    btop
+    direnv
     
-    # Cloud
-    awscli2
+    # Shell
+    starship
+    atuin
   ];
 
   environment.variables.EDITOR = "nvim";

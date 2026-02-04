@@ -1,20 +1,18 @@
 { pkgs, ... }:
 {
-  # NixOS/Linux-specific packages
+  # Linux server packages
   environment.systemPackages = with pkgs; [
     # System tools
     htop
-    curl
     unzip
     
     # OpenClaw dependencies
+    nodejs
     ffmpeg
+    yt-dlp
     
-    # Additional dev tools
+    # Build tools
     gcc
     gnumake
   ];
-
-  # Enable Docker on Linux
-  virtualisation.docker.enable = true;
 }
