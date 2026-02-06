@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  # Darwin-specific packages
+  # Darwin-specific packages (not available/needed on Linux)
   environment.systemPackages = with pkgs; [
     pam-reattach
     colima
@@ -32,6 +32,7 @@
       "zplug"
       "mysql-client"
       "prek"
+      "libmagic"
     ];
 
     casks = [
@@ -47,7 +48,9 @@
       "nikitabobko/tap/aerospace"
       "virtualbox"
       "vagrant"
-      "google-cloud-sdk"
+      "gcloud-cli"
+      "ngrok"
+      "codex"
       "telegram"
       "discord"
       "slack"
