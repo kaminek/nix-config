@@ -48,6 +48,10 @@
     # Build tools
     gcc
     gnumake
+    
+    # Containers (podman = daemonless docker alternative)
+    podman
+    podman-compose
   ];
 
   # Shell configuration
@@ -57,6 +61,8 @@
       ll = "eza -la";
       cat = "bat";
       vim = "nvim";
+      docker = "podman";
+      docker-compose = "podman-compose";
     };
   };
 
