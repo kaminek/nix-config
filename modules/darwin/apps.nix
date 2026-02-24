@@ -51,6 +51,8 @@
       "gcloud-cli"
       "ngrok"
       "codex"
+      "flameshot"
+      "stats"
       "telegram"
       "discord"
       "slack"

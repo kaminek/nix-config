@@ -78,6 +78,11 @@
     # Security
     rbw
 
+    # Python
+    (python3.withPackages (ps: with ps; [
+      keyrings-google-artifactregistry-auth
+    ]))
+
     # Task runners
     go-task
     just
