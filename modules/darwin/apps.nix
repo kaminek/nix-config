@@ -1,10 +1,22 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  username,
+  ...
+}: {
   # Darwin-specific packages (not available/needed on Linux)
   environment.systemPackages = with pkgs; [
     pam-reattach
     colima
   ];
+
+  # Set VLC as default media player on every activation (idempotent)
+  system.activationScripts.setVlcDefault.text = ''
+    if [[ -d "/Applications/VLC.app" ]]; then
+      echo "Setting VLC as default media player..."
+      sudo -u ${username} PATH=${pkgs.duti}/bin:$PATH \
+        ${../../scripts/set_vlc_default.sh} || true
+    fi
+  '';
 
   # Homebrew (macOS only)
   homebrew = {
