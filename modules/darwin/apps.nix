@@ -12,7 +12,7 @@
 
     onActivation = {
       autoUpdate = true;
-      upgrade = true;
+      upgrade = false;
       cleanup = "zap";
     };
 
@@ -20,6 +20,7 @@
 
     taps = [
       "nikitabobko/tap"
+      "modem-dev/tap"
     ];
 
     brews = [
@@ -33,6 +34,8 @@
       "mysql-client"
       "prek"
       "libmagic"
+      "rtk"
+      "modem-dev/tap/hunk"
     ];
 
     casks = [
