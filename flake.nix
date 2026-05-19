@@ -10,9 +10,12 @@
   inputs = {
     # NixOS packages (for Linux)
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    
+
     # Darwin packages (for macOS)
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+
+    # Unstable channel — for fast-moving packages (e.g. yt-dlp)
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Nix Darwin (macOS system management)
     darwin = {
@@ -31,6 +34,7 @@
     self,
     nixpkgs,
     nixpkgs-darwin,
+    nixpkgs-unstable,
     darwin,
     home-manager,
     ...
@@ -38,19 +42,29 @@
     # Shared user config
     username = "kaminek";
     useremail = "kaminek92@gmail.com";
+
+    # Unstable pkgs sets, per system — used for fast-moving packages
+    unstablePkgs = system:
+      import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
   in {
     ##########################################################################
     # Darwin Configurations (macOS)
     ##########################################################################
-    
+
     darwinConfigurations = {
       # MacBook - dota
       "dota" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = inputs // {
-          inherit username useremail;
-          hostname = "dota";
-        };
+        specialArgs =
+          inputs
+          // {
+            inherit username useremail;
+            hostname = "dota";
+            pkgsUnstable = unstablePkgs "aarch64-darwin";
+          };
         modules = [
           ./hosts/dota
         ];
@@ -60,7 +74,7 @@
     ##########################################################################
     # Home Manager Configurations (for non-NixOS Linux like Ubuntu)
     ##########################################################################
-    
+
     homeConfigurations = {
       # OpenClaw Server - claw (Ubuntu with home-manager)
       "claw" = home-manager.lib.homeManagerConfiguration {
@@ -68,6 +82,7 @@
         extraSpecialArgs = {
           inherit username useremail;
           hostname = "claw";
+          pkgsUnstable = unstablePkgs "x86_64-linux";
         };
         modules = [
           ./hosts/claw/home.nix
@@ -78,7 +93,7 @@
     ##########################################################################
     # Formatters
     ##########################################################################
-    
+
     formatter = {
       "aarch64-darwin" = nixpkgs-darwin.legacyPackages."aarch64-darwin".alejandra;
       "x86_64-linux" = nixpkgs.legacyPackages."x86_64-linux".alejandra;
