@@ -48,6 +48,7 @@
       "libmagic"
       "rtk"
       "modem-dev/tap/hunk"
+      "cloudflared"
     ];
 
     casks = [
