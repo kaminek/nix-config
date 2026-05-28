@@ -38,6 +38,7 @@
       dust
       skim
       fastfetch
+      carapace
 
       # Shell
       starship

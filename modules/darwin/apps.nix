@@ -49,6 +49,7 @@
       "rtk"
       "modem-dev/tap/hunk"
       "cloudflared"
+      "defuddle"
     ];
 
     casks = [
