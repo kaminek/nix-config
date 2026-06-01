@@ -29,7 +29,6 @@
       bat
       eza
       zoxide
-      tmux
       wget
       btop
       direnv
@@ -95,8 +94,11 @@
       ffmpeg
       duti
     ])
-    ++ [
+    ++ (with pkgsUnstable; [
       # Fast-moving packages — pulled from nixpkgs-unstable
+      tmux # need >=3.6 for client-dark-theme / client-light-theme hooks
+    ])
+    ++ [
       # Wrap yt-dlp so it finds ffmpeg at runtime
       (pkgsUnstable.symlinkJoin {
         name = "yt-dlp-with-ffmpeg";
