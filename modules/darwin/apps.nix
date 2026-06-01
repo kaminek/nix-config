@@ -6,7 +6,6 @@
   # Darwin-specific packages (not available/needed on Linux)
   environment.systemPackages = with pkgs; [
     pam-reattach
-    colima
   ];
 
   # Set VLC as default media player on every activation (idempotent)
@@ -73,6 +72,7 @@
       "telegram"
       "discord"
       "slack"
+      "orbstack"
     ];
   };
 }
