@@ -1,70 +1,119 @@
 # Nix Configuration
 
-Multi-machine Nix configuration for macOS (Darwin) and Linux (Home Manager).
+Multi-machine Nix configuration: nix-darwin for macOS, Home Manager for non-NixOS Linux.
 
-## Prerequisites
+## Requirements
 
-Install Nix using the [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer):
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-```
+- Nix with flakes enabled. Install via [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer):
+  ```bash
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+  ```
+- Git
+- **macOS only:** [Homebrew](https://brew.sh) (used for GUI apps and casks)
+- Clone this repo somewhere persistent (e.g. `~/work/perso/nix-config`)
 
 ## Machines
 
-| Host | System | Type | Description |
-|------|--------|------|-------------|
-| `dota` | aarch64-darwin | nix-darwin | MacBook (macOS) |
-| `claw` | x86_64-linux | home-manager | OpenClaw AI Agent Server (Ubuntu) |
+| Host | System         | Manager       | Description                       |
+| ---- | -------------- | ------------- | --------------------------------- |
+| dota | aarch64-darwin | nix-darwin    | MacBook                           |
+| clawy | x86_64-linux  | home-manager  | OpenClaw AI Agent Server (Ubuntu) |
 
-## Structure
+## Layout
 
 ```
-├── flake.nix              # Main flake configuration
-├── hosts/
-│   ├── dota/              # MacBook config (darwin)
-│   │   └── default.nix
-│   └── claw/              # Linux server config (home-manager)
-│       └── home.nix
-└── modules/
-    ├── shared/            # Shared modules
-    ├── darwin/            # macOS-specific (homebrew, etc)
-    └── nixos/             # Linux-specific
+flake.nix              # inputs, outputs, host registry
+hosts/
+  <host>/              # per-host entry point
+modules/
+  shared/packages.nix  # packages shared across all hosts
+  darwin/apps.nix      # macOS-only (homebrew, casks, brews)
+  nix-core.nix         # nix daemon settings
+  system.nix           # macOS system prefs
+  host-users.nix       # user accounts
+scripts/               # one-shot helper scripts
 ```
 
-## Usage
+## Build & Apply
 
-### macOS (dota)
+### macOS
 
 ```bash
 # First time
 nix run nix-darwin -- switch --flake .#dota
 
 # Updates
-darwin-rebuild switch --flake .#dota
+sudo darwin-rebuild switch --flake .#dota
 ```
 
-### Ubuntu/Linux (claw)
+### Linux (home-manager)
 
 ```bash
-# First time (installs home-manager)
-nix run home-manager -- switch --flake .#claw
+# First time
+nix run home-manager -- switch --flake .#clawy
 
 # Updates
-home-manager switch --flake .#claw
+home-manager switch --flake .#clawy
 ```
 
-## Adding Packages
-
-- **macOS:** Edit `hosts/dota/default.nix` or `modules/darwin/apps.nix`
-- **Linux:** Edit `hosts/claw/home.nix`
+Format Nix files: `nix fmt`
 
 ## Adding a New Machine
 
-### For macOS
-1. Create `hosts/<hostname>/default.nix`
-2. Add to `darwinConfigurations` in `flake.nix`
+### macOS (nix-darwin)
 
-### For Linux (non-NixOS)
-1. Create `hosts/<hostname>/home.nix`
-2. Add to `homeConfigurations` in `flake.nix`
+1. Create `hosts/<hostname>/default.nix`:
+   ```nix
+   { pkgs, username, ... }: {
+     imports = [
+       ../../modules/shared/packages.nix
+       ../../modules/darwin/apps.nix
+       ../../modules/nix-core.nix
+       ../../modules/system.nix
+       ../../modules/host-users.nix
+     ];
+     networking.hostName = "<hostname>";
+   }
+   ```
+2. Register in `flake.nix` under `darwinConfigurations`:
+   ```nix
+   "<hostname>" = darwin.lib.darwinSystem {
+     system = "aarch64-darwin";
+     specialArgs = inputs // {
+       inherit username useremail;
+       hostname = "<hostname>";
+       pkgsUnstable = unstablePkgs "aarch64-darwin";
+     };
+     modules = [ ./hosts/<hostname> ];
+   };
+   ```
+3. Apply: `nix run nix-darwin -- switch --flake .#<hostname>`
+
+### Linux (home-manager)
+
+1. Create `hosts/<hostname>/home.nix` (see `hosts/clawy/home.nix` for a working example — it accepts `pkgs`, `pkgsUnstable`, `username`).
+2. Register in `flake.nix` under `homeConfigurations`:
+   ```nix
+   "<hostname>" = home-manager.lib.homeManagerConfiguration {
+     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+     extraSpecialArgs = {
+       inherit username useremail;
+       hostname = "<hostname>";
+       pkgsUnstable = unstablePkgs "x86_64-linux";
+     };
+     modules = [ ./hosts/<hostname>/home.nix ];
+   };
+   ```
+3. Apply: `nix run home-manager -- switch --flake .#<hostname>`
+
+## Adding Packages
+
+- **Cross-platform:** `modules/shared/packages.nix`
+- **macOS GUI / brews / casks:** `modules/darwin/apps.nix`
+- **Bleeding-edge versions:** add to the `pkgsUnstable` block (already wired in `flake.nix`)
+
+## Notes
+
+- User identity (`username`, `useremail`) is set centrally in `flake.nix`.
+- Unfree packages allowed via `nixpkgs.config.allowUnfree = true`.
+- Activation hooks (e.g. setting VLC as default player) live in `modules/darwin/apps.nix`.
