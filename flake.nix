@@ -76,16 +76,16 @@
     ##########################################################################
 
     homeConfigurations = {
-      # OpenClaw Server - claw (Ubuntu with home-manager)
-      "claw" = home-manager.lib.homeManagerConfiguration {
+      # OpenClaw Server - clawy (Ubuntu with home-manager)
+      "clawy" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
           inherit username useremail;
-          hostname = "claw";
+          hostname = "clawy";
           pkgsUnstable = unstablePkgs "x86_64-linux";
         };
         modules = [
-          ./hosts/claw/home.nix
+          ./hosts/clawy/home.nix
         ];
       };
     };

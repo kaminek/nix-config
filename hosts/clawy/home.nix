@@ -1,4 +1,4 @@
-# Host: claw (Ubuntu Linux with Home Manager)
+# Host: clawy (Ubuntu Linux with Home Manager)
 # For OpenClaw AI Agent Server
 {
   pkgs,
@@ -14,7 +14,7 @@
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 
-  # Packages for claw server
+  # Packages for clawy server
   home.packages = with pkgs;
     [
       # Editors
