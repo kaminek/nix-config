@@ -49,6 +49,7 @@
       "modem-dev/tap/hunk"
       "cloudflared"
       "defuddle"
+      "uv"
     ];
 
     casks = [
