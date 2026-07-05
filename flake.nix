@@ -55,14 +55,14 @@
     ##########################################################################
 
     darwinConfigurations = {
-      # MacBook - dota
+      # MacBook - dota (hostName mbpro14, computerName mbpro14-amine.kherbouche)
       "dota" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs =
           inputs
           // {
             inherit username useremail;
-            hostname = "dota";
+            hostname = "mbpro14";
             pkgsUnstable = unstablePkgs "aarch64-darwin";
           };
         modules = [

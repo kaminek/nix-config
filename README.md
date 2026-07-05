@@ -16,7 +16,7 @@ Multi-machine Nix configuration: nix-darwin for macOS, Home Manager for non-NixO
 
 | Host | System         | Manager       | Description                       |
 | ---- | -------------- | ------------- | --------------------------------- |
-| dota | aarch64-darwin | nix-darwin    | MacBook                           |
+| dota | aarch64-darwin | nix-darwin    | MacBook (hostname mbpro14-amine.kherbouche) |
 | clawy | x86_64-linux  | home-manager  | OpenClaw AI Agent Server (Ubuntu) |
 
 ## Layout
