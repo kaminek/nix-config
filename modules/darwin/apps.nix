@@ -74,6 +74,7 @@
       "discord"
       "slack"
       "orbstack"
+      "lunar"
     ];
   };
 }
