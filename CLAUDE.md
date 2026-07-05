@@ -9,7 +9,7 @@ This is a nix-darwin configuration for macOS, managing system settings and packa
 ## Key Configuration
 
 - **Username**: `amine.kherbouche` (defined in flake.nix:44)
-- **Hostname**: `m4mbp` (defined in flake.nix:47)
+- **Config key**: `dota`; **hostName**: `mbpro14`; **computerName**: `mbpro14-amine.kherbouche` (flake.nix + hosts/dota)
 - **System**: `aarch64-darwin` (Apple Silicon)
 - **Nix version**: nixpkgs-25.05-darwin
 

@@ -1,5 +1,5 @@
-# Host: dota (MacBook - Darwin)
-{ pkgs, username, ... }:
+# Host: dota (MacBook - Darwin, computerName mbpro14-amine.kherbouche)
+{ pkgs, lib, username, ... }:
 {
   imports = [
     ../../modules/shared/packages.nix
@@ -10,5 +10,6 @@
   ];
 
   # Host-specific settings for dota
-  networking.hostName = "dota";
+  # hostName/LocalHostName/NetBIOSName forbid dots; friendly computerName allows them
+  networking.computerName = lib.mkForce "mbpro14-amine.kherbouche";
 }
