@@ -12,14 +12,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # Darwin packages (for macOS)
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
 
     # Unstable channel — for fast-moving packages (e.g. yt-dlp)
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Nix Darwin (macOS system management)
     darwin = {
-      url = "github:lnl7/nix-darwin/nix-darwin-25.05";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
