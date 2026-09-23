@@ -33,7 +33,7 @@
       btop
       direnv
       tokei
-      dogdns
+      doggo # replaces dogdns, removed in 26.05
       dust
       skim
       fastfetch
