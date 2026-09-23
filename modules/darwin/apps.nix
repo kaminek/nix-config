@@ -23,7 +23,7 @@
 
     onActivation = {
       autoUpdate = true;
-      upgrade = false;
+      upgrade = true;
       cleanup = "zap";
     };
 
@@ -32,6 +32,7 @@
     taps = [
       "nikitabobko/tap"
       "modem-dev/tap"
+      "angristan/tap"
     ];
 
     brews = [
@@ -47,9 +48,9 @@
       "libmagic"
       "rtk"
       "modem-dev/tap/hunk"
-      "cloudflared"
       "defuddle"
       "uv"
+      "angristan/tap/fast-resume"
     ];
 
     casks = [
@@ -74,7 +75,8 @@
       "discord"
       "slack"
       "orbstack"
-      "lunar"
+      "opensuperwhisper"
+      "monitorcontrol"
     ];
   };
 }

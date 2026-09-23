@@ -40,7 +40,7 @@
     ...
   }: let
     # Shared user config
-    username = "kaminek";
+    username = "amine.kherbouche";
     useremail = "kaminek92@gmail.com";
 
     # Unstable pkgs sets, per system — used for fast-moving packages
