@@ -32,6 +32,7 @@
     taps = [
       "nikitabobko/tap"
       "modem-dev/tap"
+      "angristan/tap"
     ];
 
     brews = [
@@ -49,6 +50,7 @@
       "modem-dev/tap/hunk"
       "defuddle"
       "uv"
+      "angristan/tap/fast-resume"
     ];
 
     casks = [
@@ -73,7 +75,8 @@
       "discord"
       "slack"
       "orbstack"
-      "lunar"
+      "opensuperwhisper"
+      "monitorcontrol"
     ];
   };
 }
