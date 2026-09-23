@@ -23,7 +23,7 @@
 
     onActivation = {
       autoUpdate = true;
-      upgrade = false;
+      upgrade = true;
       cleanup = "zap";
     };
 
