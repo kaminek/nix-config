@@ -55,7 +55,7 @@
 
     casks = [
       "firefox"
-      "google-chrome"
+      # "google-chrome" # managed by Jamf (installs as root:wheel), brew upgrade fails
       "alacritty"
       "ghostty"
       "karabiner-elements"
