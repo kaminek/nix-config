@@ -65,6 +65,7 @@
       awscli2
       pulumi-bin
       tailscale
+      cloudflared
 
       # Kubernetes
       kubectl

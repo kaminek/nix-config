@@ -47,7 +47,6 @@
       "libmagic"
       "rtk"
       "modem-dev/tap/hunk"
-      "cloudflared"
       "defuddle"
       "uv"
     ];
