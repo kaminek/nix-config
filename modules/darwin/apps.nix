@@ -98,7 +98,7 @@
       "discord"
       "slack"
       "orbstack"
-      "opensuperwhisper"
+      "handy"
       "monitorcontrol"
     ];
   };
