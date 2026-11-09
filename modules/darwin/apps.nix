@@ -17,6 +17,30 @@
     fi
   '';
 
+  # Secure Input (e.g. Ghostty on a sudo prompt) blocks AeroSpace hotkeys;
+  # bring the app holding it to the front so the prompt is visible.
+  # ponytail: 2s poll, macOS has no Secure Input change event
+  launchd.user.agents.secure-input-focus = {
+    script = ''
+      last=
+      while sleep 2; do
+        pid=$(/usr/sbin/ioreg -d1 -w0 -l | grep -o '"kCGSSessionSecureInputPID"=[0-9]*' | head -1 | cut -d= -f2)
+        if [ -n "$pid" ] && [ "$pid" != "$last" ]; then
+          bid=$(/opt/homebrew/bin/aerospace list-apps --format '%{app-pid}|%{app-bundle-id}' | grep "^$pid|" | cut -d'|' -f2)
+          echo "$(date '+%F %T') secure input: pid=$pid $(ps -o comm= -p "$pid") $bid"
+          [ -n "$bid" ] && /usr/bin/open -b "$bid"
+        fi
+        last=$pid
+      done
+    '';
+    serviceConfig = {
+      KeepAlive = true;
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/secure-input-focus.log";
+      StandardErrorPath = "/tmp/secure-input-focus.log";
+    };
+  };
+
   # Homebrew (macOS only)
   homebrew = {
     enable = true;
@@ -74,7 +98,7 @@
       "discord"
       "slack"
       "orbstack"
-      "opensuperwhisper"
+      "handy"
       "monitorcontrol"
     ];
   };
