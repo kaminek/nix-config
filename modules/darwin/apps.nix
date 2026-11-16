@@ -86,6 +86,7 @@
       "session-manager-plugin"
       "vlc"
       "obsidian"
+      "affine"
       "google-drive"
       "nikitabobko/tap/aerospace"
       "virtualbox"
